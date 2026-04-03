@@ -1,0 +1,43 @@
+:root {
+  --gray: #434343;
+  --dark-gray: #242424;
+  --black: #000;
+  --white: #fff;
+  --brown: #714F27;
+  --orange: #DDA15E;
+}
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: Arial, Helvetica, sans-serif;
+}
+main{
+  background: var(--black);
+  min-height: calc(100vh + 1px);
+}
+
+
+::view-transition-group(root) {
+  z-index: auto !important;
+}
+
+::view-transition-image-pair(root) {
+  isolation: isolate;
+  will-change: transform, opacity, scale;
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 2;
+  animation: none !important;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+  animation: none !important;
+}

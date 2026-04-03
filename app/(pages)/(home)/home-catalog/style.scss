@@ -1,0 +1,48 @@
+.home-catalog {
+    padding: 10rem 0;
+    background: var(--brown);
+
+    .content {
+        display: flex;
+        gap: 5rem;
+
+        .info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3rem;
+            width: 30%;
+
+            p {
+                color: var(--white);
+                font-size: 1.25rem;
+                min-width: 22rem;
+            }
+        }
+
+        .gallery-container {
+            position: relative;
+            flex-grow: 1;
+            overflow: hidden;
+        }
+    }
+
+    @media screen and (max-width: 768px){
+        padding: 5rem 0;
+
+        .content{
+            flex-direction: column;
+            align-items: center;
+
+            .info{
+                width: 100%;
+                max-width: 450px;
+                justify-content: center;
+
+
+                p{
+                    min-width: 0;
+                }
+            }
+        }
+    }
+}

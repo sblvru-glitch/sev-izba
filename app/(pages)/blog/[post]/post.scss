@@ -1,0 +1,71 @@
+.blog-post {
+  max-width: 48rem;
+  margin: 0 auto;
+
+  &__nav {
+    margin-bottom: 1.5rem;
+  }
+
+  &__back {
+    font-size: 0.9375rem;
+    color: rgba(255, 255, 255, 0.75);
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--white);
+    }
+  }
+
+  &__header {
+    margin-bottom: 2rem;
+  }
+
+  &__date {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.55);
+    margin: 0 0 0.75rem;
+  }
+
+  &__title {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    line-height: 1.2;
+    font-weight: 600;
+    color: var(--white);
+    margin: 0 0 1rem;
+  }
+
+  &__lead {
+    font-size: 1.0625rem;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+  }
+
+  &__cover {
+    position: relative;
+    width: 100%;
+    margin-bottom: 2.5rem;
+    border-radius: 1.25rem;
+    overflow: hidden;
+    aspect-ratio: 1200 / 630;
+    background: var(--gray);
+  }
+
+  &__cover-img {
+    object-fit: cover;
+  }
+
+  &__body {
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    color: rgba(255, 255, 255, 0.88);
+
+    p {
+      margin: 0 0 1.25rem;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}

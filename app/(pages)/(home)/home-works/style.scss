@@ -1,0 +1,23 @@
+@use '../../works/style.scss' as *;
+
+.home-works{
+    padding: 4rem 0;
+    background: var(--gray);
+
+    .container{
+        h2{
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 600;
+            margin-bottom: 3.5rem;
+        }
+        .home-works-gallery-button{
+            margin: 5rem auto 0;
+            background: var(--orange);
+            color: var(--white);
+            border: none;
+            cursor: pointer;
+            display: block;
+            transition: 0.35s ease-in-out;
+        }
+    }
+}

@@ -1,0 +1,113 @@
+.blog-content {
+  display: grid;
+  width: 100%;
+  max-width: 100%;
+  gap: clamp(1rem, 3vw, 3rem);
+  align-items: stretch;
+  box-sizing: border-box;
+
+  /* ——— Десктоп: цикл 6 — 50% / 50% / 100% / 33% / 33% / 33% ——— */
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+
+    .blog-content__item:nth-child(6n + 1),
+    .blog-content__item:nth-child(6n + 2) {
+      grid-column: span 3;
+    }
+
+    .blog-content__item:nth-child(6n + 3) {
+      grid-column: span 6;
+    }
+
+    .blog-content__item:nth-child(6n + 4),
+    .blog-content__item:nth-child(6n + 5),
+    .blog-content__item:nth-child(6n + 6) {
+      grid-column: span 2;
+    }
+  }
+
+  /* ——— Планшет: две колонки по 50% ——— */
+  @media (min-width: 768px) and (max-width: 1023px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    .blog-content__item {
+      grid-column: span 1;
+    }
+  }
+
+  /* ——— Мобильный: на всю ширину родителя (.container), не вьюпорта ——— */
+  @media (max-width: 767px) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+
+    .blog-content__item {
+      grid-column: 1 / -1;
+      width: 100%;
+      max-width: 100%;
+      justify-self: stretch;
+    }
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    min-width: 0;
+    min-height: clamp(17rem, 48vw, 26rem);
+    padding: 1.25rem;
+    background: var(--gray);
+    border-radius: 2rem;
+    color: inherit;
+    text-decoration: none;
+    transition: transform 0.35s ease;
+    position: relative;
+    overflow: hidden;
+    box-sizing: border-box;
+
+    &:hover {
+      transform: translateY(-4px);
+    }
+
+    h2 {
+      position: relative;
+      z-index: 1;
+      font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+      font-weight: 600;
+      margin: 0;
+      color: var(--white);
+    }
+
+    &-date {
+      position: relative;
+      z-index: 1;
+      font-size: 0.875rem;
+      font-weight: 400;
+      margin: 0;
+      color: var(--white);
+    }
+  }
+
+  &__item-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    overflow: hidden;
+    z-index: 0;
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0.55) 100%);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    img {
+      object-fit: cover;
+    }
+  }
+}
