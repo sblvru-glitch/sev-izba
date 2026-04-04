@@ -1,6 +1,7 @@
 import { CustomLink } from "../custom-link/CustomLink";
 import "./style.scss";
 import Image from "next/image";
+import MobMenu from "./mob-menu";
 
 
 const navItems = [
@@ -40,7 +41,7 @@ export default function Header() {
             ))}
         </nav>
         <div className="header-buttons">
-          
+          <MobMenu />
         </div>
       </div>
     </header>

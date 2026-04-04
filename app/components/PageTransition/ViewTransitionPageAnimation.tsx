@@ -3,6 +3,21 @@
 import { useEffect } from "react";
 import { pageAnimation } from "./transition";
 
+/** Минимальная заглушка, если браузер не дал начать второй переход подряд */
+function fallbackTransition(updateCallback: ViewTransitionUpdateCallback): ViewTransition {
+  const result = updateCallback();
+  const done =
+    result != null && typeof (result as Promise<unknown>).then === "function"
+      ? (result as Promise<unknown>)
+      : Promise.resolve(result);
+  return {
+    finished: done,
+    ready: Promise.resolve(),
+    updateCallbackDone: done,
+    skipTransition: () => {},
+  } as ViewTransition;
+}
+
 /**
  * next-view-transitions already uses document.startViewTransition for
  * router.push/replace and for popstate (back/forward), but onTransitionReady
@@ -21,10 +36,25 @@ export function ViewTransitionPageAnimation() {
     doc.startViewTransition = function startViewTransitionWithPageAnimation(
       updateCallback: ViewTransitionUpdateCallback,
     ) {
-      const transition = original(updateCallback);
-      transition.ready.then(() => {
-        pageAnimation();
-      });
+      let transition: ViewTransition;
+      try {
+        transition = original(updateCallback);
+      } catch {
+        // InvalidStateError: уже идёт переход (быстрые клики по ссылкам)
+        return fallbackTransition(updateCallback);
+      }
+
+      transition.ready
+        .then(() => {
+          try {
+            pageAnimation();
+          } catch {
+            /* синхронные ошибки animate() */
+          }
+        })
+        .catch(() => {
+          /* переход прерван — не считаем ошибкой */
+        });
       return transition;
     };
 

@@ -52,95 +52,11 @@ header{
                 display: inline-flex;
                 position: relative;
             }
-
-            .burger-menu{
-                position: relative;
-                z-index: 1110;
-                width: 2rem;
-                height: 2rem;
-                padding: 0;
-                border: none;
-                background: transparent;
-                cursor: pointer;
-                color: inherit;
-
-                &:focus-visible {
-                    outline: 2px solid var(--foreground);
-                    outline-offset: 4px;
-                }
-    
-                &-line{
-                    display: block;
-                    width: 100%;
-                    height: 0.2rem;
-                    background: var(--white);
-                    border-radius: 0.2rem;
-                    position: absolute;
-                    left: 0;
-                    transform-origin: 50% 50%;
-                    
-                    &:first-child{
-                        top: calc(50% - 0.2rem);
-                    }
-                    &:last-child{
-                        top: calc(50% + 0.2rem);
-                    }
-                }
-            }
-            button{
-                background: var(--orange);
-                color: var(--white);
-                font-weight: 600;
-                position: relative;
-                z-index: 1110;
-            }
         }
         @media (min-width: 1024px) {
             .header-nav{
                 display: flex;
             }
-            .header-buttons{
-                .burger-menu-block{
-                    display: none;
-                }
-            }
-        }
-    }
-
-    .burger-menu-pole{
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100vh;
-        background: var(--light-gray);
-        /* Выше логотипа и кнопок шапки (у них z-index: 1000), иначе меню «не видно» */
-        z-index: 1100;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 2rem;
-        overscroll-behavior: contain;
-        /* Только visibility: transform задаёт GSAP (yPercent), иначе конфликт с анимацией */
-        visibility: hidden;
-        pointer-events: none;
-
-        &[aria-hidden="true"] {
-            pointer-events: none;
-        }
-
-        &-inner{
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1.5rem;
-        }
-
-        &-item a{
-            font-size: 1.25rem;
-            font-weight: 500;
-            color: var(--foreground, #fff);
         }
     }
 }
