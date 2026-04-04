@@ -12,8 +12,8 @@ const SWIPE_THRESHOLD_PX = 56;
 type WorksGalleryProps = {
   images: string[];
   categoryName: string;
-  /** Свой рендер превью вместо сетки; openAt(i) открывает лайтбокс с этим индексом */
-  renderThumbnails?: (openAt: (index: number) => void) => ReactNode;
+  /** Свой рендер превью вместо сетки; openLightbox(i) открывает лайтбокс с этим индексом */
+  renderThumbnails?: (openLightbox: (index: number) => void) => ReactNode;
   /** Подпись для aria-dialog лайтбокса */
   lightboxAriaLabel?: string;
 };
@@ -51,7 +51,7 @@ export function WorksGallery({
     });
   }, []);
 
-  const openAt = useCallback((index: number) => {
+  const openLightbox = useCallback((index: number) => {
     navigateDirRef.current = 0;
     setActiveIndex(index);
   }, []);
@@ -228,7 +228,9 @@ export function WorksGallery({
   return (
     <>
       {renderThumbnails ? (
-        renderThumbnails(openAt)
+        // openLightbox — useCallback(setState), не ref; render prop вызывается синхронно
+        // eslint-disable-next-line react-hooks/refs -- false positive: не ref
+        renderThumbnails(openLightbox)
       ) : (
         <div className="works-category__grid">
           {images.map((src, i) => (
@@ -236,7 +238,7 @@ export function WorksGallery({
               key={`${src}-${i}`}
               type="button"
               className="works-category__cell works-category__cell--thumb"
-              onClick={() => openAt(i)}
+              onClick={() => openLightbox(i)}
               aria-label={`Открыть фото ${i + 1} из ${images.length}`}
             >
               <Image
