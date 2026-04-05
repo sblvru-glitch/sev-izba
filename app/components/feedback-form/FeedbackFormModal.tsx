@@ -8,9 +8,15 @@ import "./feedback-form.scss";
 type FeedbackFormModalProps = {
   open: boolean;
   onClose: () => void;
+  /** Заголовок модалки (по умолчанию «Написать нам») */
+  title?: string;
 };
 
-export function FeedbackFormModal({ open, onClose }: FeedbackFormModalProps) {
+export function FeedbackFormModal({
+  open,
+  onClose,
+  title = "Написать нам",
+}: FeedbackFormModalProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const backdropRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -199,7 +205,7 @@ export function FeedbackFormModal({ open, onClose }: FeedbackFormModalProps) {
             ×
           </button>
           <h2 id="feedback-form-title" className="feedback-form-modal__title">
-            Написать нам
+            {title}
           </h2>
           <form className="feedback-form-modal__form" onSubmit={handleSubmit}>
             {submitError ? (

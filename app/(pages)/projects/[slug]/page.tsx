@@ -1,9 +1,9 @@
-import { CustomLink } from "@/app/components/custom-link/CustomLink";
 import { getAllProjectSlugs, getProjectBySlug } from "@/app/data/projects-data";
 import Image from "next/image";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ProjectDescPlanGallery } from "./ProjectDescPlanGallery";
+import { ProjectEstimateButton } from "./ProjectEstimateButton";
 import "./project-detail.scss";
 import { Breadcrumbs } from "@/app/components/breadcrumbs/Breadcrumbs";
 
@@ -74,7 +74,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                 </p>
               </div>
               <div className="projectDetailPage__main-content__content__right">
-                <button className="projectDetailPage__main-content__content__right__button">Получить смету</button>
+                <ProjectEstimateButton />
               </div>
             </div>
           </div>

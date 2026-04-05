@@ -71,6 +71,7 @@
       flex-direction: column;
       justify-content: space-between;
       gap: 2rem;
+      padding: 0 1rem;
       
       .projectDetailPage__main-content__content{
         width: 100%;
@@ -79,6 +80,36 @@
         justify-content: space-between;
         align-items: end;
         gap: 2rem;
+
+        &__left{
+          h1{
+            font-size: 3rem;
+            margin-bottom: 1rem;
+          }
+          p{
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+
+            span{
+              font-size: 1.25rem;
+              font-weight: 600;
+            }
+          }
+        }
+        &__right{
+          .projectDetailPage__main-content__content__right__button{
+            background: var(--orange);
+            color: var(--white);
+          }
+        }
+      }
+
+      @media (max-width: 768px) {
+        .projectDetailPage__main-content__content{
+          flex-direction: column;
+          align-items: start;
+          gap: 1rem;
+        }
       }
     }
   }

@@ -1,6 +1,7 @@
 "use client";
 
 import { CustomLink } from "@/app/components/custom-link/CustomLink";
+import { FeedbackFormModal } from "@/app/components/feedback-form/FeedbackFormModal";
 import {
   useCallback,
   useEffect,
@@ -12,10 +13,16 @@ import gsap from "gsap";
 import "./style.scss";
 
 const DURATION_ICON = 0.32;
-const DURATION_PANEL = 0.45;
+const DURATION_PANEL = 0.48;
 const EASE_OPEN = "power3.out";
 const EASE_CLOSE = "power2.in";
 const EASE = "power2.out";
+/** Пауза между появлением пунктов меню (сек) */
+const REVEAL_STAGGER = 0.09;
+/** Длительность появления одного пункта */
+const REVEAL_DURATION = 0.55;
+/** Начало stagger до конца анимации панели (перекрытие) */
+const REVEAL_OVERLAP = 0.3;
 
 const NAV_ITEMS = [
   { label: "Главная", href: "/" },
@@ -33,6 +40,7 @@ export default function MobMenu() {
   const panelRef = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
 
   useLayoutEffect(() => {
     const line1 = line1Ref.current;
@@ -72,12 +80,21 @@ export default function MobMenu() {
 
     if (panel) {
       gsap.killTweensOf(panel);
-      if (inner) gsap.killTweensOf(inner.querySelectorAll("a"));
+      if (inner) {
+        const items = inner.querySelectorAll(".burger-menu-content__reveal");
+        gsap.killTweensOf(items);
+      }
       gsap.to(panel, {
         yPercent: -100,
         duration: DURATION_PANEL * 0.85,
         ease: EASE_CLOSE,
-        onComplete: () => setOpen(false),
+        onComplete: () => {
+          if (inner) {
+            const items = inner.querySelectorAll(".burger-menu-content__reveal");
+            gsap.set(items, { opacity: 0, y: 22 });
+          }
+          setOpen(false);
+        },
       });
     } else {
       setOpen(false);
@@ -105,29 +122,51 @@ export default function MobMenu() {
         ease: EASE,
       });
     }
-    if (panel) {
+    if (panel && inner) {
+      const items = inner.querySelectorAll(".burger-menu-content__reveal");
       gsap.killTweensOf(panel);
-      if (inner) gsap.killTweensOf(inner.querySelectorAll("a"));
+      if (items.length > 0) {
+        gsap.killTweensOf(items);
+        gsap.set(items, { opacity: 0, y: 26 });
+
+        const tl = gsap.timeline();
+        tl.to(
+          panel,
+          {
+            yPercent: 0,
+            duration: DURATION_PANEL,
+            ease: EASE_OPEN,
+          },
+          0,
+        ).fromTo(
+          items,
+          { opacity: 0, y: 26 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: REVEAL_DURATION,
+            stagger: {
+              each: REVEAL_STAGGER,
+              from: "start",
+            },
+            ease: "power3.out",
+          },
+          `-=${REVEAL_OVERLAP}`,
+        );
+      } else {
+        gsap.to(panel, {
+          yPercent: 0,
+          duration: DURATION_PANEL,
+          ease: EASE_OPEN,
+        });
+      }
+    } else if (panel) {
+      gsap.killTweensOf(panel);
       gsap.to(panel, {
         yPercent: 0,
         duration: DURATION_PANEL,
         ease: EASE_OPEN,
       });
-      if (inner) {
-        const links = inner.querySelectorAll("a");
-        gsap.fromTo(
-          links,
-          { opacity: 0, y: 16 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.35,
-            stagger: 0.05,
-            ease: "power2.out",
-            delay: 0.08,
-          },
-        );
-      }
     }
   }, []);
 
@@ -153,6 +192,11 @@ export default function MobMenu() {
     } else {
       openMenu();
     }
+  };
+
+  const handleFeedbackClick = () => {
+    close();
+    window.setTimeout(() => setFeedbackOpen(true), 400);
   };
 
   return (
@@ -184,20 +228,26 @@ export default function MobMenu() {
               <CustomLink
                 key={item.href}
                 href={item.href}
-                className="burger-menu-content__link"
+                className="burger-menu-content__link burger-menu-content__reveal"
                 onClick={close}
               >
                 {item.label}
               </CustomLink>
             ))}
           </nav>
-          <button className="burger-menu-content__button">Написать нам</button>
+          <button
+            type="button"
+            className="burger-menu-content__button burger-menu-content__reveal"
+            onClick={handleFeedbackClick}
+          >
+            Написать нам
+          </button>
           <div className="burger-menu-content__social" aria-label="Социальные сети">
             <a
               href="https://vk.com/sev_izba"
               target="_blank"
               rel="noopener noreferrer"
-              className="burger-menu-content__social-link"
+              className="burger-menu-content__social-link burger-menu-content__reveal"
               aria-label="ВКонтакте"
               onClick={close}
             >
@@ -209,7 +259,7 @@ export default function MobMenu() {
               href="https://t.me/SevernayaIzba"
               target="_blank"
               rel="noopener noreferrer"
-              className="burger-menu-content__social-link"
+              className="burger-menu-content__social-link burger-menu-content__reveal"
               aria-label="Telegram"
               onClick={close}
             >
@@ -220,6 +270,7 @@ export default function MobMenu() {
           </div>
         </div>
       </div>
+      <FeedbackFormModal open={feedbackOpen} onClose={() => setFeedbackOpen(false)} />
     </>
   );
 }

@@ -1,6 +1,8 @@
 import { Resend } from "resend";
 import { NextResponse } from "next/server";
 
+export const runtime = "nodejs";
+
 type Body = {
   name: string;
   phone: string;
@@ -65,7 +67,10 @@ export async function POST(request: Request) {
 
   if (!apiKey || !from) {
     return NextResponse.json(
-      { error: "Почта на сервере не настроена (RESEND_API_KEY, CONTACT_FROM_EMAIL)" },
+      {
+        error:
+          "Почта на сервере не настроена. Задайте в Vercel: Settings → Environment Variables переменные RESEND_API_KEY и CONTACT_FROM_EMAIL (как в .env.local), затем Redeploy. При необходимости добавьте CONTACT_TO_EMAIL.",
+      },
       { status: 503 },
     );
   }

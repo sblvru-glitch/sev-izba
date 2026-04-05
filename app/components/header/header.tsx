@@ -1,20 +1,25 @@
+"use client";
+
+import { useState } from "react";
 import { CustomLink } from "../custom-link/CustomLink";
+import { FeedbackFormModal } from "@/app/components/feedback-form/FeedbackFormModal";
 import "./style.scss";
 import Image from "next/image";
 import MobMenu from "./mob-menu";
-
 
 const navItems = [
   { label: "Главная", href: "/" },
   { label: "Проекты", href: "/projects" },
   { label: "Наши работы", href: "/works" },
   { label: "Услуги", href: "/services" },
-  { label: "О нас", href: "/about" },
+  // { label: "О нас", href: "/about" },
   { label: "Блог", href: "/blog" },
   { label: "Контакты", href: "/contacts" },
 ] as const;
 
 export default function Header() {
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
+
   return (
     <header>
       <div className="container">
@@ -39,10 +44,29 @@ export default function Header() {
                 {item.label}
               </CustomLink>
             ))}
+          <button
+            type="button"
+            className="header-nav__cta"
+            onClick={() => setFeedbackOpen(true)}
+          >
+            Написать нам
+          </button>
         </nav>
         <div className="header-buttons">
+          <button
+            type="button"
+            className="header-nav__cta"
+            onClick={() => setFeedbackOpen(true)}
+          >
+            Написать нам
+          </button>
           <MobMenu />
         </div>
+        <FeedbackFormModal
+          open={feedbackOpen}
+          onClose={() => setFeedbackOpen(false)}
+          title="Оставить заявку"
+        />
       </div>
     </header>
   );
