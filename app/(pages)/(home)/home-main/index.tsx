@@ -1,4 +1,5 @@
 import './style.scss'
+import { HomeMainContactButton } from '@/app/components/home-main-contact-button/HomeMainContactButton'
 
 export default function HomeMain() {
     return (
@@ -9,7 +10,7 @@ export default function HomeMain() {
                     дома с севера <br />
                     России <br />
                 </h1>
-                <button>Написать нам</button>
+                <HomeMainContactButton />
             </div>
             <div className="home-main-bottom">
                 <div className="container">

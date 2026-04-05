@@ -51,71 +51,81 @@ export default async function ProjectDetailPage({ params }: Props) {
   return (
     <>
       <div className="projectDetailPage">
-        <div className="container">
-          <Breadcrumbs currentLabel={project.name} />
-        </div>
         <div className="projectDetailPage__imgBg">
           <Image src={project.image} alt={project.name} width={1000} height={1000} />
         </div>
-        <div className="projectDetailPage_info">
+        <div className="projectDetailPage__main-content">
           <div className="container">
-            <div className="projectDetailPage_info__content">
-              <h1>{project.name}</h1>
-              <p>Срок: <span>{project.time}</span></p>
-              <p>Площадь: <span>{project.area}</span></p>
-              <p>Технология: <span>{project.material}</span></p>
-              <p>от <span>{project.price} руб.</span></p>
+            <Breadcrumbs currentLabel={project.name} />
+            <div className="projectDetailPage__main-content__content">
+              <div className="projectDetailPage__main-content__content__left">
+                <h1>{project.name}</h1>
+                <p>
+                  Срок: <span>{project.time}</span>
+                </p>
+                <p>
+                  Площадь: <span>{project.area}</span>
+                </p>
+                <p>
+                  Технология: <span>{project.material}</span>
+                </p>
+                <p>
+                  от <span>{project.price} руб.</span>
+                </p>
+              </div>
+              <div className="projectDetailPage__main-content__content__right">
+                <button className="projectDetailPage__main-content__content__right__button">Получить смету</button>
+              </div>
             </div>
-            <button className="projectDetailPage_info__button">Получить смету</button>
           </div>
         </div>
-      </div>
-      <div className="projectDetailPage__description">
-        <div className="container">
-          <section className="projectDetailPage__specs" aria-labelledby="project-specs-heading">
-            <h2 id="project-specs-heading">Характеристики</h2>
-            <dl className="projectDetailPage__specs-list">
-              {specRows.map(({ label, value }) => (
-                <div key={label} className="projectDetailPage__spec-row">
-                  <dt>{label}</dt>
-                  <dd>{value}</dd>
-                </div>
-              ))}
-            </dl>
-          </section>
-
-          {project.layout.length > 0 ? (
-            <ProjectDescPlanGallery
-              description={project.description}
-              projectName={project.name}
-              planSrc={project.layout[0]}
-              lightboxImages={[...project.layout, ...project.gallery]}
-            />
-          ) : (
-            <section className="projectDetailPage__description-block" aria-labelledby="project-desc-heading">
-              <h2 id="project-desc-heading">Описание проекта</h2>
-              <p className="projectDetailPage__description-text">{project.description}</p>
-            </section>
-          )}
-
-          {project.layout.length === 0 && project.gallery.length > 0 ? (
-            <section className="projectDetailPage__gallery" aria-labelledby="project-gallery-heading">
-              <h2 id="project-gallery-heading">Фотогалерея</h2>
-              <div className="projectDetailPage__gallery-grid">
-                {project.gallery.map((src, i) => (
-                  <div key={`${src}-${i}`} className="projectDetailPage__gallery-cell">
-                    <Image
-                      src={src}
-                      alt={`${project.name} — фото ${i + 1}`}
-                      fill
-                      className="projectDetailPage__gallery-img"
-                      sizes="(max-width: 600px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    />
+        <div className="projectDetailPage__description">
+          <div className="container">
+            <section className="projectDetailPage__specs" aria-labelledby="project-specs-heading">
+              <h2 id="project-specs-heading">Характеристики</h2>
+              <dl className="projectDetailPage__specs-list">
+                {specRows.map(({ label, value }) => (
+                  <div key={label} className="projectDetailPage__spec-row">
+                    <dt>{label}</dt>
+                    <dd>{value}</dd>
                   </div>
                 ))}
-              </div>
+              </dl>
             </section>
-          ) : null}
+
+            {project.layout.length > 0 ? (
+              <ProjectDescPlanGallery
+                description={project.description}
+                projectName={project.name}
+                planSrc={project.layout[0]}
+                lightboxImages={[...project.layout, ...project.gallery]}
+              />
+            ) : (
+              <section className="projectDetailPage__description-block" aria-labelledby="project-desc-heading">
+                <h2 id="project-desc-heading">Описание проекта</h2>
+                <p className="projectDetailPage__description-text">{project.description}</p>
+              </section>
+            )}
+
+            {project.layout.length === 0 && project.gallery.length > 0 ? (
+              <section className="projectDetailPage__gallery" aria-labelledby="project-gallery-heading">
+                <h2 id="project-gallery-heading">Фотогалерея</h2>
+                <div className="projectDetailPage__gallery-grid">
+                  {project.gallery.map((src, i) => (
+                    <div key={`${src}-${i}`} className="projectDetailPage__gallery-cell">
+                      <Image
+                        src={src}
+                        alt={`${project.name} — фото ${i + 1}`}
+                        fill
+                        className="projectDetailPage__gallery-img"
+                        sizes="(max-width: 600px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </section>
+            ) : null}
+          </div>
         </div>
       </div>
     </>

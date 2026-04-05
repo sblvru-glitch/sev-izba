@@ -39,27 +39,30 @@
 
       .contacts-content__item-social {
         display: flex;
-        gap: 1rem;
+        gap: 2rem;
         flex-direction: row;
         align-items: center;
         justify-content: flex-start;
         margin-bottom: 1rem;
 
         a {
-          width: 3.5rem;
-          height: 3.5rem;
-          font-size: inherit;
-          font-weight: 600;
-          color: var(--white);
-          transition: 0.35s ease-in-out;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border: 1px solid var(--white);
+          width: 60px;
+          height: 60px;
           border-radius: 50%;
+          border: 2px solid var(--white);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          opacity: 1;
+          transition: 0.35s ease-in-out;
+          cursor: pointer;
 
           &:hover {
             opacity: 0.5;
+          }
+
+          svg {
+            fill: var(--white);
           }
         }
       }
@@ -73,6 +76,55 @@
           font-weight: 600;
           color: var(--white);
         }
+      }
+    }
+  }
+
+  .contacts-map {
+    width: 100%;
+    margin-top: 1rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid color-mix(in srgb, var(--white) 12%, transparent);
+
+    &__title {
+      font-size: 1rem;
+      opacity: 0.5;
+      font-weight: 600;
+      color: var(--white);
+      margin: 0 0 1.25rem;
+    }
+
+    &__frame {
+      position: relative;
+      border-radius: 0.75rem;
+      overflow: hidden;
+      background: rgba(0, 0, 0, 0.15);
+      line-height: 0;
+      box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.2);
+      /* бело-серый вид карты: обесцвечивание + лёгкое осветление */
+      filter: grayscale(0.9) contrast(1.05) brightness(1.12);
+
+      iframe {
+        display: block;
+        width: 100%;
+        min-height: 280px;
+        height: clamp(280px, 45vw, 420px);
+        border: 0;
+      }
+    }
+
+    &__link {
+      display: inline-block;
+      margin-top: 1rem;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.75);
+      text-decoration: underline;
+      text-underline-offset: 0.2em;
+      transition: color 0.2s ease;
+
+      &:hover {
+        color: var(--white);
       }
     }
   }

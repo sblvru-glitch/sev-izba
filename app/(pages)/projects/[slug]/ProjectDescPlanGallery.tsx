@@ -21,7 +21,7 @@ export function ProjectDescPlanGallery({
       images={lightboxImages}
       categoryName={projectName}
       lightboxAriaLabel={`Проект ${projectName}`}
-      renderThumbnails={(openAt) => (
+      renderThumbnails={(openLightbox) => (
         <div className="projectDetailPage__desc-plan">
           <section className="projectDetailPage__description-block" aria-labelledby="project-desc-heading">
             <h2 id="project-desc-heading">Описание проекта</h2>
@@ -32,7 +32,7 @@ export function ProjectDescPlanGallery({
             <button
               type="button"
               className="projectDetailPage__plan-thumb"
-              onClick={() => openAt(0)}
+              onClick={() => openLightbox(0)}
               aria-label={`Открыть галерею: планировки и фото (${lightboxImages.length})`}
             >
               <span className="projectDetailPage__plan-thumb-inner">

@@ -21,10 +21,16 @@
             font-weight: 600;
         }
 
-        button {
+        .home-main__cta {
             margin-top: 2rem;
             color: var(--white);
             background: var(--orange);
+            border: none;
+            cursor: pointer;
+            font: inherit;
+            padding: 1rem 2rem;
+            border-radius: 5rem;
+            font-weight: 600;
         }
     }
 
@@ -79,7 +85,7 @@
                 text-align: center;
             }
 
-            button {
+            .home-main__cta {
                 margin: 2rem auto 0;
             }
         }
