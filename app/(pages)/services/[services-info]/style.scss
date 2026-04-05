@@ -38,15 +38,61 @@
 
   &__body {
     font-size: 1rem;
-    line-height: 1.5;
+    line-height: 1.55;
     color: var(--white);
-    max-width: 42rem;
+    max-width: 46rem;
 
     p {
       margin: 0 0 1.25rem;
 
       &:last-child {
         margin-bottom: 0;
+      }
+    }
+  }
+
+  &__lead {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    opacity: 0.95;
+    margin-bottom: 1.5rem !important;
+  }
+
+  &__h2 {
+    font-size: clamp(1.15rem, 2.5vw, 1.35rem);
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--white);
+    margin: 2rem 0 1rem;
+
+    &:first-of-type {
+      margin-top: 0.5rem;
+    }
+  }
+
+  &__list {
+    margin: 0 0 1.75rem;
+    padding-left: 1.35rem;
+
+    li {
+      margin-bottom: 0.85rem;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    strong {
+      font-weight: 600;
+      color: var(--orange, #e85d04);
+    }
+
+    &--numbered {
+      list-style-position: outside;
+      padding-left: 1.5rem;
+
+      li {
+        padding-left: 0.25rem;
       }
     }
   }

@@ -29,7 +29,7 @@ const NAV_ITEMS = [
   { label: "Проекты", href: "/projects" },
   { label: "Наши работы", href: "/works" },
   { label: "Услуги", href: "/services" },
-  { label: "О нас", href: "/about" },
+  // { label: "О нас", href: "/about" },
   { label: "Блог", href: "/blog" },
   { label: "Контакты", href: "/contacts" },
 ] as const;

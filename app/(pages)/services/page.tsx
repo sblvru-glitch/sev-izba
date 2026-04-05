@@ -1,6 +1,7 @@
 import PageModule from "@/app/components/page_modul";
 import { CustomLink } from "@/app/components/custom-link/CustomLink";
 import { servicesData } from "@/app/data/services-data";
+import { ServicesFeedbackButton } from "./ServicesFeedbackButton";
 import "./style.scss";
 import type { Metadata } from "next";
 
@@ -52,7 +53,7 @@ export default function ServicesPage() {
                       >
                         Подробнее
                       </CustomLink>
-                      <button type="button" className="form-btn">Задать вопрос?</button>
+                      <ServicesFeedbackButton />
                     </div>
                   </div>
                 ))}
