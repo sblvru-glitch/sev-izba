@@ -34,6 +34,19 @@ const NAV_ITEMS = [
   { label: "Контакты", href: "/contacts" },
 ] as const;
 
+/** Сброс/закрытие: все анимируемые узлы в фиксированном порядке. */
+function getMenuRevealElements(inner: HTMLElement): Element[] {
+  const navLinks = inner.querySelectorAll(
+    ".burger-menu-content__nav .burger-menu-content__link",
+  );
+  const button = inner.querySelector(".burger-menu-content__button");
+  const social = inner.querySelector(".burger-menu-content__social");
+  const out: Element[] = [...navLinks];
+  if (button) out.push(button);
+  if (social) out.push(social);
+  return out;
+}
+
 export default function MobMenu() {
   const line1Ref = useRef<HTMLSpanElement>(null);
   const line2Ref = useRef<HTMLSpanElement>(null);
@@ -46,11 +59,15 @@ export default function MobMenu() {
     const line1 = line1Ref.current;
     const line2 = line2Ref.current;
     const panel = panelRef.current;
+    const inner = innerRef.current;
     if (!line1 || !line2) return;
     gsap.set(line1, { y: -3, rotation: 0 });
     gsap.set(line2, { y: 3, rotation: 0 });
     if (panel) {
       gsap.set(panel, { yPercent: -100 });
+    }
+    if (inner) {
+      gsap.set(getMenuRevealElements(inner), { opacity: 0, y: 26 });
     }
   }, []);
 
@@ -81,8 +98,7 @@ export default function MobMenu() {
     if (panel) {
       gsap.killTweensOf(panel);
       if (inner) {
-        const items = inner.querySelectorAll(".burger-menu-content__reveal");
-        gsap.killTweensOf(items);
+        gsap.killTweensOf(getMenuRevealElements(inner));
       }
       gsap.to(panel, {
         yPercent: -100,
@@ -90,8 +106,7 @@ export default function MobMenu() {
         ease: EASE_CLOSE,
         onComplete: () => {
           if (inner) {
-            const items = inner.querySelectorAll(".burger-menu-content__reveal");
-            gsap.set(items, { opacity: 0, y: 22 });
+            gsap.set(getMenuRevealElements(inner), { opacity: 0, y: 22 });
           }
           setOpen(false);
         },
@@ -102,11 +117,18 @@ export default function MobMenu() {
   }, [animateIconClosed]);
 
   const openMenu = useCallback(() => {
-    setOpen(true);
     const line1 = line1Ref.current;
     const line2 = line2Ref.current;
     const panel = panelRef.current;
     const inner = innerRef.current;
+
+    if (inner) {
+      const items = getMenuRevealElements(inner);
+      gsap.killTweensOf(items);
+      gsap.set(items, { opacity: 0, y: 26 });
+    }
+
+    setOpen(true);
 
     if (line1 && line2) {
       gsap.to(line1, {
@@ -123,42 +145,84 @@ export default function MobMenu() {
       });
     }
     if (panel && inner) {
-      const items = inner.querySelectorAll(".burger-menu-content__reveal");
-      gsap.killTweensOf(panel);
-      if (items.length > 0) {
-        gsap.killTweensOf(items);
-        gsap.set(items, { opacity: 0, y: 26 });
+      const navLinks = inner.querySelectorAll(
+        ".burger-menu-content__nav .burger-menu-content__link",
+      );
+      const buttonEl = inner.querySelector<HTMLElement>(
+        ".burger-menu-content__button",
+      );
+      const socialEl = inner.querySelector<HTMLElement>(
+        ".burger-menu-content__social",
+      );
+      const toAnimate = [...navLinks, buttonEl, socialEl].filter(
+        Boolean,
+      ) as HTMLElement[];
 
-        const tl = gsap.timeline();
-        tl.to(
-          panel,
-          {
-            yPercent: 0,
-            duration: DURATION_PANEL,
-            ease: EASE_OPEN,
-          },
-          0,
-        ).fromTo(
-          items,
+      gsap.killTweensOf(panel);
+      if (toAnimate.length > 0) {
+        gsap.killTweensOf(toAnimate);
+      }
+
+      const tl = gsap.timeline();
+      tl.to(
+        panel,
+        {
+          yPercent: 0,
+          duration: DURATION_PANEL,
+          ease: EASE_OPEN,
+        },
+        0,
+      );
+
+      const navOverlap = `-=${REVEAL_OVERLAP}`;
+      const afterPrev = ">0.05";
+
+      if (navLinks.length > 0) {
+        tl.fromTo(
+          navLinks,
           { opacity: 0, y: 26 },
           {
             opacity: 1,
             y: 0,
             duration: REVEAL_DURATION,
-            stagger: {
-              each: REVEAL_STAGGER,
-              from: "start",
-            },
+            stagger: { each: REVEAL_STAGGER, from: "start" },
             ease: "power3.out",
           },
-          `-=${REVEAL_OVERLAP}`,
+          navOverlap,
         );
-      } else {
-        gsap.to(panel, {
-          yPercent: 0,
-          duration: DURATION_PANEL,
-          ease: EASE_OPEN,
-        });
+      }
+
+      if (buttonEl) {
+        tl.fromTo(
+          buttonEl,
+          { opacity: 0, y: 26 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: REVEAL_DURATION,
+            ease: "power3.out",
+          },
+          navLinks.length > 0 ? afterPrev : navOverlap,
+        );
+      }
+
+      if (socialEl) {
+        const socialPos = buttonEl
+          ? afterPrev
+          : navLinks.length > 0
+            ? afterPrev
+            : navOverlap;
+        tl.fromTo(
+          socialEl,
+          { opacity: 0, y: 26 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: REVEAL_DURATION,
+            ease: "power3.out",
+          },
+          socialPos,
+        );
       }
     } else if (panel) {
       gsap.killTweensOf(panel);
@@ -242,12 +306,15 @@ export default function MobMenu() {
           >
             Написать нам
           </button>
-          <div className="burger-menu-content__social" aria-label="Социальные сети">
+          <div
+            className="burger-menu-content__social burger-menu-content__reveal"
+            aria-label="Социальные сети"
+          >
             <a
               href="https://vk.com/sev_izba"
               target="_blank"
               rel="noopener noreferrer"
-              className="burger-menu-content__social-link burger-menu-content__reveal"
+              className="burger-menu-content__social-link"
               aria-label="ВКонтакте"
               onClick={close}
             >
@@ -259,7 +326,7 @@ export default function MobMenu() {
               href="https://t.me/SevernayaIzba"
               target="_blank"
               rel="noopener noreferrer"
-              className="burger-menu-content__social-link burger-menu-content__reveal"
+              className="burger-menu-content__social-link"
               aria-label="Telegram"
               onClick={close}
             >

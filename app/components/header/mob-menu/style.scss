@@ -63,6 +63,8 @@
 
     &__reveal {
         will-change: transform, opacity;
+        opacity: 0;
+        transform: translate3d(0, 26px, 0);
     }
 
     &__nav {
