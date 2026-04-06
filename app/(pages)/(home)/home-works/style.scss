@@ -20,4 +20,10 @@
             transition: 0.35s ease-in-out;
         }
     }
+
+    @media screen and (max-width: 768px) {
+        .container h2 {
+            text-align: center;
+        }
+    }
 }

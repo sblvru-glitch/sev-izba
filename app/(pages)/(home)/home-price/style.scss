@@ -1,164 +1,224 @@
-.home-price{
-    padding: 4rem 1rem;
-    background: var(--dark-gray);
+.home-price {
+  padding: 4rem 1rem;
+  background: var(--dark-gray);
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: clip;
+  box-sizing: border-box;
 
-    .container{
-        .switch{
-            display: flex;
-            justify-content: space-between;
+  .container {
+    .switch {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 5rem;
+      gap: 1.5rem;
+
+      .switch-box {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: flex-end;
+
+        .switch-button {
+          padding: 1rem 2rem;
+          border-radius: 5rem;
+          border: 2px solid color-mix(in srgb, var(--white) 50%, transparent);
+          background: transparent;
+          color: color-mix(in srgb, var(--white) 50%, transparent);
+          cursor: pointer;
+        }
+
+        .switch-button.active {
+          background: var(--orange);
+          color: var(--white);
+          border: 2px solid var(--orange);
+        }
+      }
+    }
+
+    .price-box {
+      width: 100%;
+      min-width: 0;
+
+      .price-box-content {
+        display: grid;
+        width: 100%;
+        min-width: 0;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        column-gap: 3rem;
+        row-gap: 0;
+      }
+
+      .price-card {
+        position: relative;
+        display: block;
+        min-width: 0;
+        padding-top: 2.5rem;
+        padding-bottom: 2.5rem;
+        border-bottom: 1px solid color-mix(in srgb, var(--white) 50%, transparent);
+        text-decoration: none;
+
+        .price-card-inner {
+          width: 100%;
+          min-width: 0;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 1rem 1.5rem;
+        }
+
+        .title {
+          font-size: 1.5rem;
+          color: color-mix(in srgb, var(--white) 50%, transparent);
+          transition: 0.35s ease-in-out;
+          min-width: 0;
+          flex: 1 1 auto;
+          overflow-wrap: anywhere;
+          word-break: break-word;
+        }
+
+        .price {
+          flex: 0 1 auto;
+          min-width: 0;
+          font-size: 1.5rem;
+          color: color-mix(in srgb, var(--white) 50%, transparent);
+          font-weight: 600;
+          transition: 0.35s ease-in-out;
+          white-space: nowrap;
+          text-align: right;
+
+          span {
+            color: var(--white);
+          }
+        }
+
+        &:hover {
+          .title,
+          .price {
+            color: var(--white);
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (min-width: 1201px) {
+    .container .price-box .price-box-content {
+      column-gap: 0;
+    }
+
+    .container .price-box .price-card--last-row {
+      border-bottom: none;
+    }
+
+    .container .price-box .price-card:nth-child(odd) {
+      border-right: 1px solid color-mix(in srgb, var(--white) 50%, transparent);
+      padding-right: 2rem;
+    }
+
+    .container .price-box .price-card:nth-child(even) {
+      padding-left: 2rem;
+    }
+  }
+
+  @media screen and (max-width: 1200px) {
+    .container {
+      .switch {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 2rem;
+        margin-bottom: 3rem;
+
+        h2 {
+          text-align: center;
+        }
+
+        .switch-box {
+          justify-content: center;
+        }
+      }
+
+      .price-box {
+        .price-box-content {
+          grid-template-columns: 1fr;
+        }
+
+        .price-card {
+          border-right: none !important;
+          padding-left: 0 !important;
+          padding-right: 0 !important;
+
+          &:last-child {
+            border-bottom: none;
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    padding: 3rem 1rem;
+
+    .container {
+      .switch {
+        margin-bottom: 2rem;
+
+        h2 {
+          text-align: center;
+        }
+
+        .switch-box {
+          flex-direction: column;
+          align-items: center;
+
+          .switch-button {
+            text-align: center;
+          }
+        }
+      }
+
+      .price-box {
+        .price-card {
+          padding: 1.25rem 0;
+
+          .price-card-inner {
+            align-items: flex-start;
+          }
+
+          .title {
+            font-size: 1.25rem;
+          }
+
+          .price {
+            font-size: 1rem;
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .container {
+      .price-box {
+        .price-card {
+          .price-card-inner {
+            flex-direction: column;
             align-items: center;
-            margin-bottom: 5rem;
+            gap: 1rem;
+          }
 
-            .switch-box{
-                display: flex;
-                gap: 1rem;
+          .title {
+            font-size: 1.125rem;
+          }
 
-                .switch-button{
-                    padding: 1rem 2rem;
-                    border-radius: 5rem;
-                    border: 2px solid color-mix(in srgb, var(--white) 50%, transparent);
-                    background: transparent;
-                    color: color-mix(in srgb, var(--white) 50%, transparent);
-                    cursor: pointer;
-                }
-
-                .switch-button.active{
-                    background: var(--orange);
-                    color: var(--white);
-                    border: 2px solid var(--orange);
-                }
-            }
-            
+          .price {
+            font-size: 1.125rem;
+            white-space: normal;
+          }
         }
-        .price-box{
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2rem;
-
-            .price-box-content{
-                display: flex;
-                flex-wrap: wrap;
-                width: 100%;
-            }
-
-            .price-card{
-                position: relative;
-                width: calc(50% - 4rem);
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding-top: 2.5rem;
-                padding-bottom: 2.5rem;
-                border-bottom: 1px color-mix(in srgb, var(--white) 50%, transparent) solid;
-
-                &:nth-child(odd){
-                    margin-right: 8rem;
-
-                    &::after{
-                        position: absolute;
-                        content: '';
-                        top: 0;
-                        right: -4rem;
-                        width: 1px;
-                        height: 100%;
-                        background: color-mix(in srgb, var(--white) 50%, transparent);
-                    }
-                }
-                &:nth-last-child(-n + 2){
-                    border-bottom: none;
-                }
-
-                div{
-                    width: 100%;
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                }
-
-                &:hover{
-                    div{
-                        .title{
-                            color: var(--white);
-                        }
-                        .price{
-                            color: var(--white);
-                        }
-                    }
-                }
-            }
-                .title{
-                    font-size: 1.5rem;
-                    color: color-mix(in srgb, var(--white) 50%, transparent);
-                    transition: 0.35s ease-in-out;
-                }
-                .price{
-                    font-size: 1.5rem;
-                    color: color-mix(in srgb, var(--white) 50%, transparent);
-                    font-weight: 600;
-                    transition: 0.35s ease-in-out;
-
-                    span{
-                        color: var(--white);
-                    }
-                }
-        }
+      }
     }
-
-    @media screen and (max-width: 1200px){
-        .container{
-            .switch{
-                flex-direction: column;
-                align-items: center;
-                gap: 2rem;
-            }
-            .price-box{
-                .price-box-content{
-                    .price-card{
-                        width: 100%;
-                        margin-right: 0;
-
-                        &:nth-last-child(-n+2){
-                            border-bottom: 1px solid color-mix(in srgb, var(--white) 50%, transparent);
-                        }
-                    }
-                }
-            }
-        }
-    }
-    @media screen and (max-width: 768px){
-        padding: 5rem 1rem;
-
-        .container{
-            .switch{
-                flex-direction: column;
-                align-items: center;
-                gap: 2rem;
-                margin-bottom: 2rem;
-
-                .switch-box{
-                    flex-direction: column;
-                    gap: 1rem;
-                }
-            }
-        }
-        .price-box{
-            .price-box-content{
-                .price-card{
-                    width: 100%;
-                    margin-right: 0;
-                    flex-direction: column;
-                    gap: 1rem;
-                    padding: 1.5rem;
-
-                    .title{
-                        font-size: 1.25rem;
-                    }
-
-                    .price{
-                        font-size: 1rem;
-                    }
-                }
-            }
-        }
-    }
+  }
 }

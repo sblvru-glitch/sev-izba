@@ -1,46 +1,171 @@
 .home-catalog {
-    padding: 10rem 0;
-    background: var(--brown);
+    padding: 4rem 1rem;
+    background: var(--orange);
 
-    .content {
-        display: flex;
-        gap: 5rem;
-
-        .info {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 3rem;
-            width: 30%;
-
-            p {
-                color: var(--white);
-                font-size: 1.25rem;
-                min-width: 22rem;
-            }
-        }
-
-        .gallery-container {
+    .container {
+        .gallery {
             position: relative;
-            flex-grow: 1;
-            overflow: hidden;
-        }
-    }
+            padding-bottom: 1rem;
 
-    @media screen and (max-width: 768px){
-        padding: 5rem 0;
-
-        .content{
-            flex-direction: column;
-            align-items: center;
-
-            .info{
+            .gallery-track {
+                display: flex;
+                gap: 2rem;
                 width: 100%;
-                max-width: 450px;
+                will-change: transform;
+            }
+
+            .gallery-item {
+                flex-shrink: 0;
+                width: 40vw;
+
+                @media screen and (max-width: 1200px) {
+                    width: 80vw;
+                }
+
+                &.gallery-item-1 {
+                    background: none;
+                    width: 100%;
+                    overflow: visible;
+                    display: flex;
+                    justify-content: space-between;
+
+                    .gallery-item-1-content{
+                        width: calc(50% - 1rem);
+                        padding-right: 4rem;
+
+                        @media screen and (max-width: 1200px) {
+                            padding-right: 0;
+                            width: 100%;
+                        }
+
+                        h2{
+                            margin-bottom: 2rem;
+                            font-weight: 600;
+                            color: var(--white);
+                        }
+                        p{
+                            font-size: 1.25rem;
+                            line-height: 1.5;
+                            font-weight: 500;
+                            color: var(--white);
+                        }
+                        .gallery-item-1-cta {
+                            margin-top: 3rem;
+                            display: inline-block;
+                            padding: 1rem 2rem;
+                            font-size: 1rem;
+                            font-weight: 600;
+                            border-radius: 5rem;
+                            transition: all 0.35s ease;
+                            cursor: pointer;
+                            color: var(--black);
+                            background: var(--white);
+
+                            &:hover {
+                                transform: scale(1.05);
+                            }
+                        }
+                    }
+                    .project-container{
+                        @media screen and (max-width: 1200px) {
+                            display: none;
+                        }
+                    }
+                }
+                .project-container {
+                    width: 40vw;
+                    display: flex;
+                    flex-direction: column;
+                    border-radius: 4rem;
+                    text-decoration: none;
+                    color: inherit;
+                    cursor: pointer;
+                    transition: opacity 0.25s ease;
+
+                    @media screen and (max-width: 1200px) {
+                        width: 80vw;
+                    }
+
+                    &:hover {
+                        opacity: 0.92;
+                    }
+
+                    &:focus-visible {
+                        outline: 2px solid var(--white);
+                        outline-offset: 4px;
+                        border-radius: 4rem;
+                    }
+
+                    /* Явная высота области картинки — иначе height: % у img не считается и Next/Image даёт 500px до пересчёта */
+                    .project-container__media {
+                        position: relative;
+                        width: 100%;
+                        aspect-ratio: 1/0.55;
+                        border-radius: 4rem;
+                        overflow: hidden;
+                        flex-shrink: 0;
+
+                        @media screen and (max-width: 1200px) {
+                            aspect-ratio: 1/1;
+                        }
+                    }
+
+                    .project-container__img {
+                        object-fit: cover;
+                    }
+                    .project-container-content{
+                        padding: 2rem 0;
+                        display: flex;
+                        align-items: center;
+                        gap: 2rem;
+
+                        h3{
+                            font-size: 3rem;
+                            font-weight: 600;
+                            color: var(--white);
+                        }
+                        p{
+                            font-size: 1.5rem;
+                            border: 2px solid (var(--white));
+                            padding: 0.5rem 1rem;
+                            border-radius: 5rem;
+                        }   
+                    }
+                }
+            }
+
+            .gallery__nav {
+                display: flex;
                 justify-content: center;
+                gap: 1rem;
+                margin-top: 1.5rem;
+            }
 
+            .gallery__arrow {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                min-width: 3rem;
+                min-height: 3rem;
+                padding: 0 1rem;
+                border: none;
+                border-radius: 999px;
+                background: var(--white);
+                color: var(--black);
+                cursor: pointer;
+                transition: opacity 0.2s ease, transform 0.2s ease;
 
-                p{
-                    min-width: 0;
+                .gallery__arrow-icon {
+                    display: block;
+                }
+
+                &:hover:not(:disabled) {
+                    transform: scale(1.05);
+                }
+
+                &:disabled {
+                    opacity: 0.35;
+                    cursor: not-allowed;
                 }
             }
         }

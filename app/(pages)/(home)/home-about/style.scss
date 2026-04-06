@@ -13,6 +13,8 @@
         align-items: center;
         justify-content: space-between;
         gap: 2rem;
+        min-width: 0;
+        width: 100%;
 
         .home-about-info-list {
             ul {
@@ -25,6 +27,9 @@
 
                     span {
                         font-size: 1.25rem;
+                        opacity: 0.5;
+                        display: block;
+                        margin-bottom: 0.5rem;
                         color: var(--white);
                     }
                     p {
@@ -37,6 +42,7 @@
         }
         .home-about-info-text {
             max-width: 40%;
+            min-width: 0;
 
             p {
                 font-size: 1.25rem;

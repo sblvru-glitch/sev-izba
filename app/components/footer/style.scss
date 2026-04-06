@@ -7,19 +7,26 @@ footer {
         display: flex;
         align-items: center;
         justify-content: space-between;
+        flex-wrap: wrap;
         gap: 2rem;
         margin-bottom: 2rem;
+        min-width: 0;
+        width: 100%;
 
         .left-side {
             display: flex;
             align-items: center;
             gap: 2rem;
+            min-width: 0;
+            flex: 1 1 auto;
 
             .phone {
                 font-size: 2rem;
                 font-weight: 600;
                 cursor: pointer;
                 transition: 0.35s ease-in-out;
+                min-width: 0;
+                overflow-wrap: anywhere;
 
                 &:hover {
                     opacity: 0.8;
@@ -48,6 +55,8 @@ footer {
             justify-content: space-between;
             align-items: center;
             gap: 2rem;
+            min-width: 0;
+            flex: 1 1 auto;
 
             .social-icons{
                 display: flex;

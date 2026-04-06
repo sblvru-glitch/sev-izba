@@ -4,7 +4,7 @@
   --black: #000;
   --white: #fff;
   --brown: #714F27;
-  --orange: #DDA15E;
+  --orange: #D7964A;
 }
 *{
   margin: 0;
@@ -16,9 +16,18 @@ body {
   color: var(--white);
   font-family: Arial, Helvetica, sans-serif;
 }
-main{
+
+/* Горизонтальный скролл из-за min-content / отрицательных offset / 100vw */
+html {
+  overflow-x: hidden;
+}
+
+main {
   background: var(--black);
   min-height: calc(100vh + 1px);
+  overflow-x: clip;
+  width: 100%;
+  max-width: 100%;
 }
 
 

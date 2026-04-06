@@ -5,11 +5,20 @@ import { CustomLink } from '@/app/components/custom-link/CustomLink'
 import { servicesData } from '@/app/data/services-data'
 import './style.scss'
 
+/** Индекс первой карточки в последней строке сетки (2 колонки на широком экране) */
+function lastRowStartIndex(total: number, columns: number) {
+    if (total <= 0) return 0
+    const remainder = total % columns
+    return total - (remainder === 0 ? columns : remainder)
+}
+
 export default function HomePrice() {
     const [activeTab, setActiveTab] = useState('building')
 
     const priceBuilding = servicesData.find((c) => c.description === 'building')?.items ?? []
     const priceDesign = servicesData.find((c) => c.description === 'design')?.items ?? []
+    const buildingLastRow = lastRowStartIndex(priceBuilding.length, 2)
+    const designLastRow = lastRowStartIndex(priceDesign.length, 2)
 
     return (
         <div className='home-price'>
@@ -45,10 +54,11 @@ export default function HomePrice() {
                                 {priceBuilding.map((item, index) => (
                                     <CustomLink
                                         href={`/services/building-${item.description}`}
-                                        className='price-card'
+                                        className={`price-card${index >= buildingLastRow ? ' price-card--last-row' : ''}`}
                                         key={`building-${item.description}-${index}`}
                                     >
                                         <motion.div
+                                            className="price-card-inner"
                                             initial={{ opacity: 0 }}
                                             animate={{ opacity: 1 }}
                                             transition={{ duration: 0.3 }}
@@ -71,16 +81,17 @@ export default function HomePrice() {
                                 {priceDesign.map((item, index) => (
                                     <CustomLink
                                         href={`/services/design-${item.description}`}
-                                        className='price-card'
+                                        className={`price-card${index >= designLastRow ? ' price-card--last-row' : ''}`}
                                         key={`design-${item.description}-${index}`}
                                     >
                                         <motion.div
+                                            className="price-card-inner"
                                             initial={{ opacity: 0 }}
                                             animate={{ opacity: 1 }}
                                             transition={{ duration: 0.3 }}
                                         >
                                             <p className='title'>{item.name}</p>
-                                            <p className='price'>от <span>{item.price}</span> руб/м²</p>
+                                            <p className='price'>от <span>{item.price}</span> руб.</p>
                                         </motion.div>
                                     </CustomLink>
                                 ))}
