@@ -9,7 +9,7 @@ export function HomeMainContactButton() {
   return (
     <>
       <button type="button" className="home-main__cta" onClick={() => setOpen(true)}>
-        Написать нам
+        Обсудить проект
       </button>
       <FeedbackFormModal open={open} onClose={() => setOpen(false)} />
     </>

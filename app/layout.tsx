@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globalstyle/basestyle.scss"
 import "./globalstyle/globals.scss";
 import { ViewTransitions } from "next-view-transitions";
@@ -7,14 +7,8 @@ import Header from "./components/header/header";
 import { ViewTransitionPageAnimation } from "./components/PageTransition/ViewTransitionPageAnimation";
 import Footer from "./components/footer/Footer";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const inter = Inter({
+  subsets: ["latin", "cyrillic"],
 });
 
 export const metadata: Metadata = {
@@ -39,9 +33,9 @@ export default function RootLayout({
 }>) {
   return (
     <ViewTransitions>
-    <html lang="en">
+    <html lang="ru">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${inter.className} antialiased`}
       >
         <ViewTransitionPageAnimation />
         <Header />

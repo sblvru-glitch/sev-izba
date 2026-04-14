@@ -1,202 +1,116 @@
 'use client'
 
-import { useCallback, useLayoutEffect, useRef, useState } from 'react'
+import { projects } from '@/app/data/projects-data'
 import gsap from 'gsap'
-import './style.scss'
 import Image from 'next/image'
+import { useLayoutEffect, useMemo, useRef, useState } from 'react'
+import './style.scss'
 import { CustomLink } from '@/app/components/custom-link/CustomLink'
-import { getProjectBySlug, projects } from '@/app/data/projects-data'
 
-const l57 = getProjectBySlug('l-57')
-/** Пять проектов для слайдов карусели (после вводного блока) */
-const catalogCarouselProjects = projects.slice(0, 5)
-
-const FALLBACK_GAP_PX = 32
-const SLIDE_COUNT = 1 + catalogCarouselProjects.length
-
-function getTrackGapPx(track: HTMLElement): number {
-  const s = getComputedStyle(track)
-  const raw = s.columnGap && s.columnGap !== 'normal' ? s.columnGap : s.gap
-  const parsed = parseFloat(raw)
-  return Number.isFinite(parsed) ? parsed : FALLBACK_GAP_PX
-}
-
-function GalleryArrowIcon({ direction }: { direction: 'left' | 'right' }) {
-  return (
-    <svg
-      className='gallery__arrow-icon'
-      width={22}
-      height={22}
-      viewBox='0 0 24 24'
-      aria-hidden
-    >
-      <path
-        fill='none'
-        stroke='currentColor'
-        strokeWidth={2.25}
-        strokeLinecap='round'
-        strokeLinejoin='round'
-        d={direction === 'left' ? 'M15 18l-6-6 6-6' : 'M9 18l6-6-6-6'}
-      />
-    </svg>
-  )
-}
-
-function centerOffsetX(
-  wrapperWidth: number,
-  track: HTMLElement,
-  index: number
-): number {
-  const slides = track.children
-  const i = Math.max(0, Math.min(index, slides.length - 1))
-  const slide = slides[i] as HTMLElement
-  const gapPx = getTrackGapPx(track)
-  let left = 0
-  for (let j = 0; j < i; j++) {
-    left += (slides[j] as HTMLElement).offsetWidth + gapPx
-  }
-  const slideCenter = left + slide.offsetWidth / 2
-  return wrapperWidth / 2 - slideCenter
-}
+const VISIBLE_SLIDES = 2
 
 export default function HomeCatalog() {
-  const wrapperRef = useRef<HTMLDivElement>(null)
+  const [position, setPosition] = useState(VISIBLE_SLIDES)
   const trackRef = useRef<HTMLDivElement>(null)
-  const tweenRef = useRef<gsap.core.Tween | null>(null)
-  const [activeIndex, setActiveIndex] = useState(0)
-  const activeIndexRef = useRef(0)
+  const homeProjects = useMemo(() => projects, [])
+  const isAnimatingRef = useRef(false)
+  const isResettingRef = useRef(false)
+  const prependSlides = useMemo(() => homeProjects.slice(-VISIBLE_SLIDES), [homeProjects])
+  const appendSlides = useMemo(() => homeProjects.slice(0, VISIBLE_SLIDES), [homeProjects])
+  const sliderProjects = useMemo(
+    () => [...prependSlides, ...homeProjects, ...appendSlides],
+    [prependSlides, homeProjects, appendSlides]
+  )
+  const maxShiftPercent = 100 / VISIBLE_SLIDES
 
   useLayoutEffect(() => {
-    activeIndexRef.current = activeIndex
-  }, [activeIndex])
-
-  const animateToIndex = useCallback((index: number, duration = 0.75) => {
-    const wrap = wrapperRef.current
     const track = trackRef.current
-    if (!wrap || !track || track.children.length === 0) return
+    if (!track) return
 
-    const x = centerOffsetX(wrap.offsetWidth, track, index)
-    tweenRef.current?.kill()
-    tweenRef.current = gsap.to(track, {
-      x,
-      duration,
+    const targetXPercent = -(position * maxShiftPercent)
+
+    if (isResettingRef.current) {
+      gsap.set(track, { xPercent: targetXPercent })
+      isResettingRef.current = false
+      return
+    }
+
+    isAnimatingRef.current = true
+    gsap.to(track, {
+      xPercent: targetXPercent,
+      duration: 0.6,
       ease: 'power3.out',
-    })
-  }, [])
+      onComplete: () => {
+        isAnimatingRef.current = false
 
-  useLayoutEffect(() => {
-    animateToIndex(activeIndex)
-  }, [activeIndex, animateToIndex])
+        if (position === homeProjects.length + VISIBLE_SLIDES) {
+          isResettingRef.current = true
+          setPosition(VISIBLE_SLIDES)
+          return
+        }
 
-  /** Не зависит от activeIndex: иначе при смене слайда RO пересоздаётся и синхронно вызывает duration 0 — отменяет tween со стрелок. */
-  useLayoutEffect(() => {
-    const wrap = wrapperRef.current
-    if (!wrap) return
-    let skipInitial = true
-    const ro = new ResizeObserver(() => {
-      if (skipInitial) {
-        skipInitial = false
-        return
+        if (position === VISIBLE_SLIDES - 1) {
+          isResettingRef.current = true
+          setPosition(homeProjects.length + VISIBLE_SLIDES - 1)
+        }
       }
-      animateToIndex(activeIndexRef.current, 0)
     })
-    ro.observe(wrap)
-    return () => ro.disconnect()
-  }, [animateToIndex])
+  }, [position, homeProjects.length, maxShiftPercent])
 
-  const goPrev = () => setActiveIndex((i) => Math.max(0, i - 1))
-  const goNext = () =>
-    setActiveIndex((i) => Math.min(SLIDE_COUNT - 1, i + 1))
+  const goPrev = () => {
+    if (isAnimatingRef.current) return
+    setPosition((prev) => prev - 1)
+  }
+
+  const goNext = () => {
+    if (isAnimatingRef.current) return
+    setPosition((prev) => prev + 1)
+  }
 
   return (
     <div className='home-catalog'>
       <div className='container'>
-        <div className='gallery' ref={wrapperRef}>
-          <div className='gallery-track' ref={trackRef}>
-            <div className='gallery-item gallery-item-1'>
-              <div className='gallery-item-1-content'>
-                <h2>Каталог проектов</h2>
-                <p>
-                  В каталоге представлен
-                  широкий спектр архитектурных
-                  решений, воплощающих
-                  гармоничное сочетание
-                  функциональности и эстетики.
-                  <br />
-                  <br />
-                  Каждый проект детально
-                  проработан с учетом новейших
-                  тенденций в области дизайна
-                  и строительства, отражая
-                  уникальный подход к созданию
-                  премиальных жилых пространств.
-                </p>
-                <CustomLink href='/projects' className='gallery-item-1-cta'>
-                  Весь каталог
-                </CustomLink>
-              </div>
-              <CustomLink
-                href={l57 ? `/projects/${l57.slug}` : '/projects'}
-                className='project-container'
-                aria-label={l57 ? `Проект ${l57.name}` : 'Каталог проектов'}
-              >
-                <div className='project-container__media'>
-                  <Image
-                    src={l57?.image ?? '/projects/l-57/Project _29_1.jpg'}
-                    alt={l57?.name ?? 'L-57'}
-                    fill
-                    className='project-container__img'
-                    sizes='(max-width: 768px) 90vw, 40vw'
-                  />
-                </div>
-                <div className='project-container-content'>
-                  <h3>{l57?.name ?? 'L-57'}</h3>
-                  <p>{l57?.area ?? '57 м²'}</p>
-                </div>
-              </CustomLink>
-            </div>
-            {catalogCarouselProjects.map((project) => (
-              <div key={project.id} className='gallery-item'>
-                <CustomLink
-                  href={`/projects/${project.slug}`}
-                  className='project-container'
-                  aria-label={`Проект ${project.name}`}
-                >
-                  <div className='project-container__media'>
-                    <Image
-                      src={project.image}
-                      alt={project.name}
-                      fill
-                      className='project-container__img'
-                      sizes='(max-width: 768px) 90vw, 40vw'
-                    />
+        <h2>Каталог проектов</h2>
+        <p className='home-catalog-description'>Проекты которые мы реализуем</p>
+        <div className='home-catalog-gallery'>
+          <div className='home-catalog-gallery-viewport'>
+            <div className='home-catalog-gallery-track' ref={trackRef}>
+              {sliderProjects.map((project, index) => (
+                <CustomLink href={`/projects/${project.slug}`} className='home-catalog-gallery-item' key={`${project.id}-${index}`}>
+                  <div className='home-catalog-gallery-item-img'>
+                    <Image src={project.image} alt={project.name} width={500} height={500} />
+                    <div className='home-catalog-gallery-item-img-info'>
+                      <div className='home-catalog-gallery-item-img-info-content'>
+                        <svg width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'>
+                          <path d='M7 3h10v4h4v14H3V3h4zm0 2v2h10V5H7zm0 4H5v10h14V9h-2v2H7V9z' />
+                        </svg>
+                        {project.area}
+                      </div>
+                      <div className='home-catalog-gallery-item-img-info-content'>
+                        <svg width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'>
+                          <path d='M3 10L12 3l9 7v10h-6v-6H9v6H3V10z' />
+                        </svg>
+                        {project.material}
+                      </div>
+                    </div>
+                    <div className='home-catalog-gallery-item-img-bg'></div>
                   </div>
-                  <div className='project-container-content'>
+                  <div className='home-catalog-gallery-item-info'>
                     <h3>{project.name}</h3>
-                    <p>{project.area}</p>
+                    <p className='home-catalog-gallery-item-info-price'>
+                      от <span>{project.price}</span> руб.
+                    </p>
                   </div>
                 </CustomLink>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-          <div className='gallery__nav'>
-            <button
-              type='button'
-              className='gallery__arrow'
-              aria-label='Предыдущий слайд'
-              disabled={activeIndex <= 0}
-              onClick={goPrev}
-            >
-              <GalleryArrowIcon direction='left' />
+          <div className='home-catalog-gallery-controls'>
+            <button type='button' className='home-catalog-gallery-nav home-catalog-gallery-nav--prev' onClick={goPrev} aria-label='Предыдущие проекты'>
+              &#8249;
             </button>
-            <button
-              type='button'
-              className='gallery__arrow'
-              aria-label='Следующий слайд'
-              disabled={activeIndex >= SLIDE_COUNT - 1}
-              onClick={goNext}
-            >
-              <GalleryArrowIcon direction='right' />
+            <button type='button' className='home-catalog-gallery-nav home-catalog-gallery-nav--next' onClick={goNext} aria-label='Следующие проекты'>
+              &#8250;
             </button>
           </div>
         </div>

@@ -15,14 +15,32 @@
         position: relative;
         z-index: 2;
 
+        .home-main__subtitle {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--white);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
         h1 {
             font-size: 4rem;
             color: var(--white);
             font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        .home-main__description {
+            font-size: 1rem;
+            line-height: 1.5rem;
+            color: var(--white);
+            opacity: 0.8;
+            font-weight: 400;
+            margin-bottom: 2rem;
+            max-width: 600px;
         }
 
         .home-main__cta {
-            margin-top: 2rem;
             color: var(--white);
             background: var(--orange);
             border: none;
@@ -44,13 +62,14 @@
         .container {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: end;
 
             .soc-link {
                 display: flex;
-                gap: 2rem;
+                gap: 1rem;
 
                 a {
+                    transform: scale(0.8);
                     width: 4rem;
                     height: 4rem;
                     border-radius: 50%;
@@ -60,6 +79,7 @@
                     align-items: center;
                     color: var(--white);
                     font-size: 1.5rem;
+                    opacity: 1;
                     transition: 0.35s ease-in-out;
 
                     &:hover {
@@ -68,6 +88,26 @@
 
                     svg {
                         fill: var(--white);
+                    }
+                }
+            }
+            .numbers {
+                display: flex;
+                gap: 4rem;
+                padding: 2rem;
+                background: rgba(67, 67, 67, 0.3);
+                border-radius: 1rem;
+                backdrop-filter: blur(10px);
+
+                p {
+                    font-size: 4rem;
+                    font-weight: 600;
+                    line-height: 2.5rem;
+
+                    span {
+                        font-size: 1rem;
+                        font-weight: 400;
+                        opacity: 0.5;
                     }
                 }
             }
