@@ -1,13 +1,13 @@
 .home-about {
     padding: 4rem 1rem;
-    background: var(--color-1);
+    background: #fff;
 
     .container {
         display: flex;
         justify-content: space-between;
 
         h2{
-            color: var(--color-5);
+            color: var(--color-2);
         }
         .home-about-img{
             width: calc(50% - 2rem);
@@ -53,6 +53,7 @@
                 letter-spacing: .1em;
                 opacity: 0.5;
                 margin-bottom: 1rem;
+                color: var(--color-2);
             }
             &-description{
                 font-size: 2rem;
@@ -62,7 +63,7 @@
             }
             p{
                 line-height: 1.5rem;
-                color: var(--color-5);
+                color: var(--color-6);
                 opacity: 0.8;
             }
             &-numbers{
@@ -83,7 +84,7 @@
                         font-size: 1rem;
                         opacity: 0.5;
                         text-transform: uppercase;
-                        color: var(--color-5);
+                        color: var(--color-2);
                     }
                 }
             }
