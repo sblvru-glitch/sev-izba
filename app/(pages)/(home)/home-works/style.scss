@@ -2,18 +2,19 @@
 
 .home-works{
     padding: 4rem 1rem;
-    background: var(--gray);
+    background: var(--color-5);
 
     .container{
         h2{
             font-size: clamp(2rem, 4vw, 3rem);
             font-weight: 600;
             margin-bottom: 3.5rem;
+            color: var(--color-1);
         }
         .home-works-gallery-button{
             margin: 5rem auto 0;
-            background: var(--orange);
-            color: var(--white);
+            background: var(--color-4);
+            color: var(--color-5);
             border: none;
             cursor: pointer;
             display: block;

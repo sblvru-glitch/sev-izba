@@ -1,11 +1,14 @@
 .home-about {
     padding: 4rem 1rem;
-    background: var(--gray);
+    background: var(--color-1);
 
     .container {
         display: flex;
         justify-content: space-between;
 
+        h2{
+            color: var(--color-5);
+        }
         .home-about-img{
             width: calc(50% - 2rem);
             height: 65vh;
@@ -14,7 +17,7 @@
             &-container{
                 width: calc(100% - 2rem);
                 height: calc(100% - 2rem);
-                background-color: red;
+                background-color: var(--color-5);
                 border-radius: 1rem;
                 overflow: hidden;
 
@@ -23,11 +26,12 @@
                 position: absolute;
                 bottom: 0;
                 right: 0;
-                background: var(--orange);
+                background: var(--color-4);
                 padding: 2rem 2rem 0 2rem;
                 border-radius: 1rem;
                 font-size: 3rem;
                 font-weight: 700;
+                color: var(--color-5);
 
                 span{
                     position: relative;
@@ -36,6 +40,7 @@
                     font-weight: 500;
                     opacity: 0.8;
                     text-transform: uppercase;
+                    color: var(--color-5);
                 }
             }
         }
@@ -53,13 +58,16 @@
                 font-size: 2rem;
                 font-weight: 700;
                 margin-bottom: 2rem;
+                color: var(--color-5);
             }
             p{
                 line-height: 1.5rem;
+                color: var(--color-5);
+                opacity: 0.8;
             }
             &-numbers{
                 margin-top: 2rem;
-                border-top: 1px solid var(--white);
+                border-top: 1px solid var(--color-5);
                 padding-top: 2rem;
                 display: flex;
                 justify-content: space-between;
@@ -69,11 +77,13 @@
                     font-size: 3rem;
                     font-weight: 600;
                     line-height: 2rem;
+                    color: var(--color-3);
 
                     span{
                         font-size: 1rem;
                         opacity: 0.5;
                         text-transform: uppercase;
+                        color: var(--color-5);
                     }
                 }
             }

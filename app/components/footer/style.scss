@@ -1,7 +1,7 @@
 footer {
     padding: 4rem 1rem 2rem;
-    background: var(--black);
-    color: var(--white);
+    background: var(--color-2);
+    color: var(--color-5);
 
     .footer-info {
         display: flex;
@@ -66,7 +66,6 @@ footer {
                     width: 60px;
                     height: 60px;
                     border-radius: 50%;
-                    border: 2px var(--white) solid;
                     display: flex;
                     justify-content: center;
                     align-items: center;
@@ -80,7 +79,7 @@ footer {
                     }
 
                     svg{
-                        fill: var(--white);
+                        fill: var(--color-5);
                     }
                 }
             }
@@ -91,6 +90,8 @@ footer {
                 font-size: 1.25rem;
                 font-weight: 550;
                 cursor: pointer;
+                background: var(--color-4);
+                color: var(--color-5);
             }
         }
     }

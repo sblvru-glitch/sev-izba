@@ -1,6 +1,6 @@
 .home-price {
   padding: 4rem 1rem;
-  background: var(--dark-gray);
+  background: var(--color-4);
   width: 100%;
   max-width: 100%;
   min-width: 0;
@@ -8,6 +8,9 @@
   box-sizing: border-box;
 
   .container {
+    h2{
+      color: var(--color-5);
+    }
     .switch {
       display: flex;
       justify-content: space-between;
@@ -24,16 +27,16 @@
         .switch-button {
           padding: 1rem 2rem;
           border-radius: 5rem;
-          border: 2px solid color-mix(in srgb, var(--white) 50%, transparent);
+          border: 2px solid color-mix(in srgb, var(--color-5) 50%, transparent);
           background: transparent;
-          color: color-mix(in srgb, var(--white) 50%, transparent);
+          color: color-mix(in srgb, var(--color-5) 50%, transparent);
           cursor: pointer;
         }
 
         .switch-button.active {
-          background: var(--orange);
-          color: var(--white);
-          border: 2px solid var(--orange);
+          background: var(--color-2);
+          color: var(--color-5);
+          border: 2px solid var(--color-4);
         }
       }
     }
@@ -57,7 +60,7 @@
         min-width: 0;
         padding-top: 2.5rem;
         padding-bottom: 2.5rem;
-        border-bottom: 1px solid color-mix(in srgb, var(--white) 50%, transparent);
+        border-bottom: 1px solid color-mix(in srgb, var(--color-5) 50%, transparent);
         text-decoration: none;
 
         .price-card-inner {
@@ -71,7 +74,7 @@
 
         .title {
           font-size: 1.5rem;
-          color: color-mix(in srgb, var(--white) 50%, transparent);
+          color: color-mix(in srgb, var(--color-5) 50%, transparent);
           transition: 0.35s ease-in-out;
           min-width: 0;
           flex: 1 1 auto;
@@ -83,21 +86,21 @@
           flex: 0 1 auto;
           min-width: 0;
           font-size: 1.5rem;
-          color: color-mix(in srgb, var(--white) 50%, transparent);
+          color: color-mix(in srgb, var(--color-5) 50%, transparent);
           font-weight: 600;
           transition: 0.35s ease-in-out;
           white-space: nowrap;
           text-align: right;
 
           span {
-            color: var(--white);
+            color: var(--color-5);
           }
         }
 
         &:hover {
           .title,
           .price {
-            color: var(--white);
+            color: var(--color-5);
           }
         }
       }
@@ -114,7 +117,7 @@
     }
 
     .container .price-box .price-card:nth-child(odd) {
-      border-right: 1px solid color-mix(in srgb, var(--white) 50%, transparent);
+      border-right: 1px solid color-mix(in srgb, var(--color-5) 50%, transparent);
       padding-right: 2rem;
     }
 
